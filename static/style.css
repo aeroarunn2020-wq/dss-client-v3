@@ -1,0 +1,134 @@
+/* Global & Body */
+.container { max-width: 1600px; margin: 0 auto; padding: 0 20px; }
+body { font-family: 'Segoe UI',sans-serif; margin: 0; padding-bottom: 80px; background-color: #2c2f48; color: #c7c7d1; }
+
+/* Header & Footer */
+header { padding: 20px 0; }
+h1 { margin: 0; font-size: 2em; font-weight: normal; color: #fff; }
+.fixed-footer { position: fixed; bottom: 0; left: 0; width: 100%; background-color: #3e416d; text-align: center; padding: 15px 0; border-top: 1px solid #4a4d80; z-index: 1000; }
+.fixed-footer p { margin: 0; color: #888; font-size: 0.9em; }
+
+/* Layout & Cards */
+main { padding: 0; }
+.column-container { display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 20px; }
+.column, .column-center { display: flex; flex-direction: column; gap: 20px; }
+.card { background-color: #3e416d; padding: 20px; border-radius: 8px; border: 1px solid #4a4d80; }
+h2 { margin-top: 0; margin-bottom: 25px; font-size: 1.1em; font-weight: normal; color: #fff; }
+.card p { display: flex; justify-content: space-between; margin: 10px 0; }
+.align-right { color: #fff; }
+.green { color: #28a745; }
+
+/* Forms & Buttons */
+input, select { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #5a5d9a; border-radius: 5px; background-color: #5a5d9a; color: #c7c7d1; font-size: 0.9em; box-sizing: border-box; }
+input[readonly] { background-color: #3e416d; border-color: transparent; }
+#wallet-address { border: 1px solid #5a5d9a; }
+button { background-color: #7b4dff; color: #fff; padding: 12px; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; width: 100%; }
+button:disabled { background-color: #5a5d9a; cursor: not-allowed; }
+button.danger { background-color: #e94560; }
+.wallet-container { display: flex; gap: 10px; }
+.wallet-container button { width: auto; }
+
+/* Wallet Section */
+.wallet-section { display: grid; grid-template-columns: 3fr 1fr; gap: 20px; }
+.balance-card { text-align: center; }
+.balance-amount { font-size: 1.8em; color: #fff; font-weight: bold; margin: 0; justify-content: center; }
+.balance-xmr { color: #888; margin-top: 5px; justify-content: center; }
+
+/* Client & Activity Lists */
+.client-cards-container { display: flex; flex-direction: column; gap: 10px; }
+.client-card { background-color: #4a4d80; padding: 15px; border-radius: 8px; border: 1px solid #5a5d9a; }
+.client-info { flex-grow: 1; text-align: center; }
+.client-card p { margin: 5px 0; }
+.client-card.active { border-color: #28a745; }
+.client-card .dot-flashing { display: none; }
+.client-card.active .dot-flashing { display: block; position: relative; width: 10px; height: 10px; border-radius: 5px; background-color: #9880ff; color: #9880ff; animation: dotFlashing 1s infinite linear alternate; animation-delay: .5s; margin: 15px auto 5px; }
+.client-card.active .dot-flashing::before, .client-card.active .dot-flashing::after { content: ''; display: inline-block; position: absolute; top: 0; }
+.client-card.active .dot-flashing::before { left: -15px; width: 10px; height: 10px; border-radius: 5px; background-color: #9880ff; color: #9880ff; animation: dotFlashing 1s infinite alternate; animation-delay: 0s; }
+.client-card.active .dot-flashing::after { left: 15px; width: 10px; height: 10px; border-radius: 5px; background-color: #9880ff; color: #9880ff; animation: dotFlashing 1s infinite alternate; animation-delay: 1s; }
+@keyframes dotFlashing { 0% { background-color: #9880ff; } 50%, 100% { background-color: rgba(152, 128, 255, 0.2); } }
+
+/* Progress Bar */
+.progress-bar-container { width: 100%; background-color: #2c2f48; border-radius: 5px; height: 20px; position: relative; margin-top: 10px; }
+.progress-bar { background-color: #7b4dff; height: 100%; border-radius: 5px; }
+.progress-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #fff; font-size: 0.8em; }
+
+.activity-item { padding: 6px 4px; border-bottom: 1px solid #4a4d80; font-size: 0.9em; }
+.activity-item.event span { color: #7b4dff; font-weight: bold; }
+.no-clients { text-align: center; color: #888; }
+
+/* Raw Job Box */
+.raw-job-box {
+    width: 100%;
+    height: 200px;
+    background-color: #232436;
+    border: 1px solid #4a4d80;
+    color: #cdd0e8;
+    font-family: monospace;
+    font-size: 0.8em;
+    padding: 10px;
+    border-radius: 6px;
+    box-sizing: border-box;
+    resize: vertical;
+}
+
+/* Console / Log */
+.console-card { width: 100%; margin-bottom: 20px; }
+.console-card h2 { margin-bottom: 10px; }
+.console-log { background: #232436; border: 1px solid #4a4d80; padding: 12px; height: 160px; overflow-y: auto; font-family: monospace; font-size: 0.9em; color: #cdd0e8; border-radius: 6px; }
+.console-line { padding: 4px 0; border-bottom: 1px solid rgba(74,77,128,0.15); }
+.console-line .time { color: #888; margin-right: 8px; }
+.console-line .msg { color: #c7c7d1; }
+
+/* Console minimize/maximize button */
+.console-toggle-btn {
+    background-color: #5a5d9a;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 0.8em;
+    cursor: pointer;
+    float: right;
+    margin-top: -5px;
+}
+
+.console-card.minimized {
+    height: 50px; /* Adjust as needed for minimized height */
+    overflow: hidden;
+}
+
+.console-card.minimized .console-log,
+.console-card.minimized p {
+    display: none;
+}
+
+/* Fixed console (positioned above footer) */
+.fixed-console { position: fixed; left: 20px; right: 20px; bottom: 70px; z-index: 1001; max-width: calc(100% - 40px); }
+.fixed-console .console-log { height: 180px; }
+
+/* Stratum Status Card */
+#stratum-status {
+    margin-bottom: 20px;
+    background-color: #232436;
+}
+#stratum-status .status-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+#stratum-status p {
+    margin: 5px 0;
+    padding: 8px;
+    background-color: #3e416d;
+    border-radius: 4px;
+}
+#stratum-status .red {
+    color: #e94560;
+}
+.status-top {
+    margin-top: 10px;
+}
+
+/* Ensure container has bottom padding to avoid overlap */
+body { padding-bottom: 280px; }
+

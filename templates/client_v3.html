@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="5">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSS Mining Client v3</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header><h1>Mining Client v3</h1></header>
+        <main>
+            <!-- Client console moved to top -->
+            <div id="client-console" class="console-card card">
+                <h2>Client Console</h2>
+                <div class="console-log" id="console-log">
+                    {% for item in console_log %}
+                        <div class="console-line"><span class="time">{{ item.time }}</span> <span class="msg">- {{ item.msg }}</span></div>
+                    {% else %}
+                        <div class="console-line"><span class="msg">No client activity yet.</span></div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="column-container">
+                <div class="column">
+                    <div class="card">
+                        <h2>Client Info</h2>
+                        <p><span>Client ID:</span> <span class="align-right">{{ stats.client_id[:8] }}...</span></p>
+                        <p><span>Server:</span> <span class="align-right">{{ stats.server_host }}:{{ stats.server_port }}</span></p>
+                        <p><span>Status:</span> <span class="align-right {{ 'green' if stats.connected else '' }}">{{ "Connected" if stats.connected else "Disconnected" }}</span></p>
+                        {% if stats.connected %}
+                            <button id="disconnect-btn" class="danger">Disconnect</button>
+                        {% else %}
+                            <button id="connect-btn">Connect</button>
+                        {% endif %}
+                    </div>
+                    <div class="card">
+                        <h2>Payout Wallet</h2>
+                        <div class="wallet-container">
+                            <input type="text" id="wallet-address" value="{{ wallet_address }}">
+                            <button id="save-wallet-btn">Save</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="column-center">
+                    <div class="card">
+                        <h2>Mining Stats</h2>
+                        <p><span>Current Job:</span> <span class="align-right">{{ stats.job_id[:8] }}...</span></p>
+                        <p><span>Hashrate:</span> <span class="align-right">{{ "%.2f" | format(stats.hashrate) }} H/s</span></p>
+                    </div>
+                    <div class="card">
+                        <h2>Submitted Shares</h2>
+                        <div class="activity-list">
+                            {% for share in finished_shares %}
+                                <div class="activity-item">
+                                    <span><strong>Job:</strong> {{ share.id[:8] }}...</span>
+                                    <span class="align-right"><strong>Hash:</strong> {{ share.hash }}...</span>
+                                </div>
+                            {% else %}
+                                <p>No shares submitted yet.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="card">
+                        <h2>Last Event</h2>
+                        <p><span>{{ stats.last_event }}</span></p>
+                    </div>
+                    <div class="card">
+                        <h2>Raw Job Data</h2>
+                        <textarea readonly class="raw-job-box">{{ stats.raw_job }}</textarea>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <footer class="fixed-footer"><p>© 2025 FG Business Services Ltd. All Rights Reserved.</p></footer>
+    <script>
+        const connectBtn = document.getElementById('connect-btn');
+        if (connectBtn) connectBtn.addEventListener('click', () => fetch('/connect', { method: 'POST' }).then(() => location.reload()));
+        const disconnectBtn = document.getElementById('disconnect-btn');
+        if (disconnectBtn) disconnectBtn.addEventListener('click', () => fetch('/disconnect', { method: 'POST' }).then(() => location.reload()));
+        const saveWalletBtn = document.getElementById('save-wallet-btn');
+        if (saveWalletBtn) {
+            saveWalletBtn.addEventListener('click', () => {
+                const walletAddress = document.getElementById('wallet-address').value;
+                fetch('/save_wallet', { 
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ wallet_address: walletAddress })
+                }).then(() => alert('Wallet address saved!'));
+            });
+        }
+    </script>
+</body>
+</html>
